@@ -10,7 +10,8 @@ trait IEventParser {
 class EventParser extends IEventParser{
   override def parse(json: String): Event = {
     val eventJsValue  = Json.parse(json)
-    new Event(getStringValueFromJson(eventJsValue, "event_type"), getStringValueFromJson(eventJsValue, "data"))
+    new Event(getStringValueFromJson(eventJsValue, "event_type"),
+              getStringValueFromJson(eventJsValue, "data"))
   }
 
   private def getStringValueFromJson(jsValue : JsValue, attributeName : String) : String = {

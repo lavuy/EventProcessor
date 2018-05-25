@@ -24,7 +24,7 @@ class AkkaEventStatsServer(eventStats : EventStats, port: Int) extends EventStat
     val route =
       path("stats") {
         get {
-          complete(HttpResponse(entity = "cat"))
+          complete(HttpResponse(entity = Json.stringify(Json.toJson(eventStats.getSnapshot())).toString()))
         }
       }
 

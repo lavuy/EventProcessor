@@ -10,7 +10,7 @@ import scala.collection.JavaConverters._
   */
 trait EventStats {
   def incrementCount(statName : String , statValue : String,  statCount : Int) : Int
-  def getSnapshot() : scala.collection.Map[String, scala.collection.Map[String, AtomicInteger]]
+  def getSnapshot() : scala.collection.Map[String, scala.collection.Map[String, Int]]
 }
 
 class ConcurrentEventStats extends  EventStats{
@@ -33,7 +33,15 @@ class ConcurrentEventStats extends  EventStats{
   }
 
 
-  override def getSnapshot() : scala.collection.Map[String, scala.collection.Map[String, AtomicInteger]] = {
-    statsByName.readOnlySnapshot()
+  override def getSnapshot() : scala.collection.Map[String, scala.collection.Map[String, Int]] = {
+    val snapshot = statsByName.readOnlySnapshot()
+    val intSnapshot = snapshot map { case (k, v) ⇒  k → toIntMap(v)   }
+    intSnapshot
   }
+
+  def toIntMap(stats : TrieMap[String, AtomicInteger]): scala.collection.Map[String, Int] ={
+    stats  map {case (k, v) => k -> v.get() }
+  }
+
+
 }

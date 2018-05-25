@@ -8,7 +8,7 @@ class ConcurrentEventsStatsSpec extends FunSuite{
     val stats = new ConcurrentEventStats()
     stats.incrementCount("data", "cat", 3)
 
-    assert(stats.getSnapshot()("data")("cat").get() == 3)
+    assert(stats.getSnapshot()("data")("cat") == 3)
   }
 
   test("it should increment count of given stat value by given amount") {
@@ -16,6 +16,6 @@ class ConcurrentEventsStatsSpec extends FunSuite{
     stats.incrementCount("data", "cat", 3)
     stats.incrementCount("data", "cat", 2)
     val snapshot = stats.getSnapshot()
-    assert(snapshot("data")("cat").get() == 5)
+    assert(snapshot("data")("cat") == 5)
   }
 }
