@@ -7,7 +7,6 @@ class ConcurrentEventsStatsSpec extends FunSuite{
   test("it should create a new stat name and value with the given count when non exist") {
     val stats = new ConcurrentEventStats()
     stats.incrementCount("data", "cat", 3)
-
     assert(stats.getSnapshot()("data")("cat") == 3)
   }
 

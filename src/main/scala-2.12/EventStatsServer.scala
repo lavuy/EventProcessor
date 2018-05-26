@@ -20,7 +20,8 @@ class AkkaEventStatsServer(eventStats : EventStats, port: Int) extends EventStat
     implicit val materializer = ActorMaterializer()
     // needed for the future flatMap/onComplete in the end
     implicit val executionContext = system.dispatcher
-
+    println(s"Server listning on port $port")
+    println(s"try me out on: http://127.0.0.1:$port/stats")
     val route =
       path("stats") {
         get {
