@@ -19,14 +19,21 @@ import scala.sys.process.ProcessLogger
   */
 object EventProcessorApp {
   def main(args: Array[String]): Unit = {
-    println("Hello, world!");
+    if (args.size == 0){
+      println("Missing generator file path")
+      return
+    }
+
+    val generatorPath = args(0)
+
     val eventStats = new ConcurrentEventStats
     val eventParser = new JsonEventParser
     val eventStatsUpdater = new EventStatsUpdater(eventStats)
 
-    val lineStream = Process("\"D:\\Downloads\\generator-windows-amd64.exe\"").lineStream
+    val lineStream = Process(generatorPath).lineStream
 
     var eventProcessingStarter = new AkkaEventProcessor(lineStream, eventParser, eventStatsUpdater)
+    eventProcessingStarter.startEventProcessingPipeline()
 
     val server = new AkkaEventStatsServer(eventStats, 8080)
     val thread = new Thread(server)
